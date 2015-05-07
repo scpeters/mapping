@@ -35,10 +35,12 @@ trkpt_line=`grep -n ^trkpt ${CSV_NAME} | sed -e 's@:.*@@'`
 # Delete the following line as well (csv header labels)
 # Delete the first two columns (ID, trksegID)
 # Delete all trailing commas
+# We also need to switch columns 1 and 2
 sed "1,${trkpt_line}d" ${CSV_NAME} \
   | sed '1d' \
   | sed -e 's@^[0-9]*,[0-9]*,@@' \
-        -e 's@,,,*@@'
+        -e 's@,,,*@@' \
+        -e 's@^\([0-9\.\-]*\),\([0-9\.\-]*\),@\2,\1,@'
 # This is a quick hack, may not be robust
 cat <<END
         </coordinates>
